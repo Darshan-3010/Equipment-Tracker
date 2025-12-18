@@ -8,23 +8,22 @@ app.use(express.json());
 
 const FILE = "./equipment.json";
 
-/* Read JSON file */
+
 const readData = () => {
   const data = fs.readFileSync(FILE);
   return JSON.parse(data);
 };
 
-/* Write JSON file */
+
 const writeData = (data) => {
   fs.writeFileSync(FILE, JSON.stringify(data, null, 2));
 };
 
-/* GET all equipment */
 app.get("/api/equipment", (req, res) => {
   res.json(readData());
 });
 
-/* ADD equipment */
+
 app.post("/api/equipment", (req, res) => {
   const equipment = readData();
   const newItem = {
@@ -36,7 +35,7 @@ app.post("/api/equipment", (req, res) => {
   res.json({ message: "Equipment added" });
 });
 
-/* UPDATE equipment */
+
 app.put("/api/equipment/:id", (req, res) => {
   const equipment = readData();
   const index = equipment.findIndex(e => e.id == req.params.id);
@@ -48,7 +47,6 @@ app.put("/api/equipment/:id", (req, res) => {
   res.json({ message: "Equipment updated" });
 });
 
-/* DELETE equipment */
 app.delete("/api/equipment/:id", (req, res) => {
   let equipment = readData();
   equipment = equipment.filter(e => e.id != req.params.id);
